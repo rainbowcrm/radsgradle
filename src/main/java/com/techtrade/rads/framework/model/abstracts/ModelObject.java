@@ -376,7 +376,13 @@ public abstract class ModelObject {
 				}else if(java.util.Date.class.equals(currMethod.getReturnType())) {
 					String dateFormatted =  Utils.dateToString((java.util.Date)ret,context.getDateFormat());
 					jsonString.append("\"" + jsonTag + "\":\"" + dateFormatted+ "\",\n" );
-				}else  if (!isNumericClass(currMethod.getReturnType()))
+				}else if(java.time.LocalDateTime.class.equals(currMethod.getReturnType())) {
+					 String dateFormatted =  Utils.localDateTimeToString((java.time.LocalDateTime)ret,context.getDateFormat());
+					 jsonString.append("\"" + jsonTag + "\":\"" + dateFormatted+ "\",\n" );
+				 }else if(java.time.LocalDate.class.equals(currMethod.getReturnType())) {
+					 String dateFormatted =  Utils.localDateToString((java.time.LocalDate)ret,context.getDateFormat());
+					 jsonString.append("\"" + jsonTag + "\":\"" + dateFormatted+ "\",\n" );
+				 }else  if (!isNumericClass(currMethod.getReturnType()))
 					jsonString.append("\"" + jsonTag + "\":\"" +  ret.toString()+ "\",\n" );
 				else
 					jsonString.append("\"" + jsonTag + "\":" +  ret.toString()+ ",\n" );
@@ -590,6 +596,12 @@ public abstract class ModelObject {
 					 }
 				}else if(java.util.Date.class.equals(method.getReturnType())) {
 					String dateFormatted =  Utils.dateToString((java.util.Date)retVal,context.getDateFormat());
+					returnMap.put(key, dateFormatted);
+				}else if(java.time.LocalDateTime.class.equals(method.getReturnType())) {
+					String dateFormatted =  Utils.localDateTimeToString((java.time.LocalDateTime)retVal,context.getDateFormat());
+					returnMap.put(key, dateFormatted);
+				}else if(java.time.LocalDate.class.equals(method.getReturnType())) {
+					String dateFormatted =  Utils.localDateToString((java.time.LocalDate)retVal,context.getDateFormat());
 					returnMap.put(key, dateFormatted);
 				}else
 					returnMap.put(key, retVal);

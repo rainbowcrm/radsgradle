@@ -66,4 +66,14 @@ public class RadsContext  implements IRadsContext{
 	public String getDateFormat() {
 		return "yyyy-MM-dd";
 	}
+
+	@Override
+	public void setDateTimeFormat(String format) {
+
+	}
+
+	@Override
+	public String getDateTimeFormat() {
+		return null;
+	}
 }

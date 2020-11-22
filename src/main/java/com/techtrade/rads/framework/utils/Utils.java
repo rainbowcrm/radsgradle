@@ -3,6 +3,9 @@ package com.techtrade.rads.framework.utils;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -126,6 +129,18 @@ public class Utils {
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf.format(dt);
 	}
+
+	public static String localDateToString(LocalDate dt , String format )throws ParseException {
+		if (dt == null) return null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+		return dt.format(formatter);
+	}
+
+	public static String localDateTimeToString(LocalDateTime dt , String format )throws ParseException {
+		if (dt == null) return null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+		return dt.format(formatter);
+	}
 	
 	public static Date stringToDate(String str , String format) throws ParseException {
 			SimpleDateFormat sdf = new SimpleDateFormat(format); 
@@ -147,6 +162,14 @@ public class Utils {
 			return Integer.parseInt(str); 
 		}else if("long".equals(retType.getName()) || java.lang.Long.class.equals(retType)){
 			return Long.parseLong(str);
+		}else if("java.time.LocalDateTime".equals(retType.getName())){
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(context.getDateTimeFormat());
+			LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
+			return  dateTime;
+		}else if("java.time.LocalDate".equals(retType.getName())){
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(context.getDateFormat());
+			LocalDate dateTime = LocalDate.parse(str, formatter);
+			return  dateTime;
 		}else if("java.util.Date".equals(retType.getName())){
 			SimpleDateFormat sdf = new SimpleDateFormat(context.getDateFormat());
 			return sdf.parse(str) ;

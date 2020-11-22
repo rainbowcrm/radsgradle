@@ -22,6 +22,10 @@ public interface IRadsContext {
 		return "dd-mmm-yyyy";
 	}
 
+	public void setDateTimeFormat(String format);
+	public  default  String getDateTimeFormat() {
+		return "dd-mmm-yyyy HH:mm";
+	}
 
 
 	 
