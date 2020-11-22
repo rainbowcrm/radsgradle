@@ -382,6 +382,9 @@ public abstract class ModelObject {
 				 }else if(java.time.LocalDate.class.equals(currMethod.getReturnType())) {
 					 String dateFormatted =  Utils.localDateToString((java.time.LocalDate)ret,context.getDateFormat());
 					 jsonString.append("\"" + jsonTag + "\":\"" + dateFormatted+ "\",\n" );
+				 }else if(java.sql.Timestamp.class.equals(currMethod.getReturnType())) {
+					 String dateFormatted =  Utils.timeStampToString((java.sql.Timestamp)ret,context.getDateFormat());
+					 jsonString.append("\"" + jsonTag + "\":\"" + dateFormatted+ "\",\n" );
 				 }else  if (!isNumericClass(currMethod.getReturnType()))
 					jsonString.append("\"" + jsonTag + "\":\"" +  ret.toString()+ "\",\n" );
 				else
@@ -602,6 +605,9 @@ public abstract class ModelObject {
 					returnMap.put(key, dateFormatted);
 				}else if(java.time.LocalDate.class.equals(method.getReturnType())) {
 					String dateFormatted =  Utils.localDateToString((java.time.LocalDate)retVal,context.getDateFormat());
+					returnMap.put(key, dateFormatted);
+				}else if(java.sql.Timestamp.class.equals(method.getReturnType())) {
+					String dateFormatted =  Utils.timeStampToString((java.sql.Timestamp)retVal,context.getDateTimeFormat());
 					returnMap.put(key, dateFormatted);
 				}else
 					returnMap.put(key, retVal);

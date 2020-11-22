@@ -1,6 +1,7 @@
 package com.techtrade.rads.framework.utils;
 
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -123,7 +124,13 @@ public class Utils {
 			return false;
 		
 	}
-	
+
+	public static String timeStampToString(Timestamp dt , String format )throws ParseException {
+		if (dt == null) return null;
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		return sdf.format(dt);
+	}
+
 	public static String dateToString(Date dt , String format )throws ParseException {
 		if (dt == null) return null;
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -146,7 +153,12 @@ public class Utils {
 			SimpleDateFormat sdf = new SimpleDateFormat(format); 
 			return sdf.parse(str) ;
 	}
-	
+
+	public static Timestamp stringToTimeStamp(String str , String format) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		Timestamp retValue = new Timestamp(sdf.parse(str).getTime());
+		return retValue;
+	}
 	
 	public static Object stringToType(String str , Class retType, IRadsContext context) throws Exception {
 		if(isNullString(str) &&
@@ -170,6 +182,9 @@ public class Utils {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(context.getDateFormat());
 			LocalDate dateTime = LocalDate.parse(str, formatter);
 			return  dateTime;
+		}else if("java.sql.Timestamp".equals(retType.getName())){
+			SimpleDateFormat sdf = new SimpleDateFormat(context.getDateTimeFormat());
+			return new Timestamp(sdf.parse(str).getTime() );
 		}else if("java.util.Date".equals(retType.getName())){
 			SimpleDateFormat sdf = new SimpleDateFormat(context.getDateFormat());
 			return sdf.parse(str) ;
